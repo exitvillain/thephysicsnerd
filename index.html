@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Physics Nerd — NYC Tutoring</title>
+  <meta name="description" content="NYC tutoring in Physics, Calculus, and Computer Science. Columbia Physics (B.A.), NYU Computer Science (M.S.)." />
+
+  <style>
+    :root{
+      --bg: #05070b;
+      --text: rgba(245,248,255,.92);
+      --muted: rgba(245,248,255,.68);
+      --hair: rgba(245,248,255,.12);
+      --glass: rgba(6,10,16,.42);
+      --glass2: rgba(6,10,16,.22);
+      --accent: rgba(125,211,252,.85);
+      --accent2: rgba(167,139,250,.75);
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      overflow-x:hidden;
+    }
+
+    /* Full-screen animated background */
+    #bg{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:-2;
+      display:block;
+      background: radial-gradient(900px 520px at 25% 20%, rgba(125,211,252,.12), transparent 60%),
+                  radial-gradient(900px 520px at 70% 30%, rgba(167,139,250,.10), transparent 60%),
+                  #05070b;
+    }
+
+    /* subtle vignette + grain-ish overlay (no images) */
+    .vignette{
+      position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 50% 15%, transparent 0%, rgba(0,0,0,.35) 60%, rgba(0,0,0,.65) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
+      mix-blend-mode: multiply;
+    }
+
+    /* Top bar: minimal, not “tacky capsule” */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:5;
+      border-bottom:1px solid var(--hair);
+      background: linear-gradient(to bottom, var(--glass), var(--glass2));
+      backdrop-filter: blur(10px);
+    }
+
+    .topbarInner{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-weight:700;
+      font-size:12px;
+      color: rgba(245,248,255,.86);
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    .sig{
+      width:10px;height:10px;border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(125,211,252,.25);
+    }
+
+    .links{
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+      font-size:12px;
+    }
+    .links a{
+      color: rgba(245,248,255,.72);
+      text-decoration:none;
+      padding:6px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .links a:hover{ color: rgba(245,248,255,.95); border-bottom-color: var(--hair); }
+
+    .btn{
+      font: inherit;
+      font-size:12px;
+      color: rgba(245,248,255,.78);
+      background: transparent;
+      border: 1px solid var(--hair);
+      padding: 7px 10px;
+      border-radius: 10px;
+      cursor:pointer;
+    }
+    .btn:hover{ color: rgba(245,248,255,.96); border-color: rgba(245,248,255,.22); }
+
+    /* Main: intentionally sparse */
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 44px 16px 70px;
+    }
+
+    .title{
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    .subtitle{
+      margin: 0 0 22px;
+      color: var(--muted);
+      max-width: 65ch;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .facts{
+      display:grid;
+      gap:10px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(245,248,255,.82);
+    }
+
+    .facts .row{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .label{
+      color: rgba(245,248,255,.55);
+      min-width: 92px;
+    }
+
+    .hr{
+      margin: 26px 0 16px;
+      height:1px;
+      background: linear-gradient(to right, transparent, rgba(245,248,255,.18), transparent);
+    }
+
+    .tiny{
+      margin-top: 22px;
+      color: rgba(245,248,255,.50);
+      font-size: 12px;
+    }
+
+    /* Reduced motion mode */
+    body.reduced #bg{ display:none; }
+    body.reduced{
+      background: radial-gradient(900px 520px at 25% 20%, rgba(125,211,252,.10), transparent 60%),
+                  radial-gradient(900px 520px at 70% 30%, rgba(167,139,250,.08), transparent 60%),
+                  #05070b;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="bg"></canvas>
+  <div class="vignette"></div>
+
+  <header class="topbar">
+    <div class="topbarInner">
+      <div class="brand"><span class="sig"></span> The Physics Nerd</div>
+
+      <div class="links">
+        <a href="mailto:daniel.gray@thephysicsnerd.com">Email</a>
+        <a href="tel:+19177693073">Call</a>
+        <button id="toggleMotion" class="btn" type="button">Reduce motion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1 class="title">Daniel Thomas Gray</h1>
+    <p class="subtitle">
+      NYC tutoring in Physics, Calculus, and Computer Science.
+      Clear explanations, calm debugging, no fluff.
+    </p>
+
+    <div class="hr"></div>
+
+    <div class="facts">
+      <div class="row"><span class="label">Degrees</span>
+        <span>B.A. Physics, Columbia University • M.S. Computer Science, NYU</span>
+      </div>
+      <div class="row"><span class="label">Location</span>
+        <span>New York City (in-person & online)</span>
+      </div>
+      <div class="row"><span class="label">Phone</span>
+        <span>(917) 769-3073</span>
+      </div>
+      <div class="row"><span class="label">Email</span>
+        <span>daniel.gray@thephysicsnerd.com</span>
+      </div>
+    </div>
+
+    <div class="tiny">More details coming soon.</div>
+  </main>
+
+  <script>
+  (() => {
+    const canvas = document.getElementById('bg');
+    const toggleBtn = document.getElementById('toggleMotion');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let raf = null;
+
+    function setReduced(on){
+      document.body.classList.toggle('reduced', on);
+      toggleBtn.textContent = on ? "Enable motion" : "Reduce motion";
+      if (on) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+      } else {
+        resize();
+        if (!raf) raf = requestAnimationFrame(draw);
+      }
+    }
+
+    // Respect OS reduced-motion preference by default
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) setReduced(true);
+
+    toggleBtn?.addEventListener('click', () => {
+      setReduced(!document.body.classList.contains('reduced'));
+    });
+
+    function resize() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      canvas.width = w;
+      canvas.height = h;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      ctx.setTransform(1,0,0,1,0,0); // work in device pixels directly
+    }
+
+    window.addEventListener('resize', () => {
+      if (!document.body.classList.contains('reduced')) resize();
+    });
+
+    // Charges in normalized space (0..1), scaled each frame
+    const charges = [
+      { x: 0.30, y: 0.46, q: +1.0 },
+      { x: 0.70, y: 0.56, q: -1.0 },
+      { x: 0.52, y: 0.30, q: +0.55 },
+      { x: 0.52, y: 0.78, q: -0.55 },
+    ];
+
+    const particles = [];
+    const MAX = 1400; // lower if you want less GPU/CPU
+    let last = performance.now();
+
+    function randEdge(w, h) {
+      const r = Math.random();
+      if (r < 0.25) return { x: Math.random() * w, y: 0 };
+      if (r < 0.50) return { x: w, y: Math.random() * h };
+      if (r < 0.75) return { x: Math.random() * w, y: h };
+      return { x: 0, y: Math.random() * h };
+    }
+
+    function reset(p, w, h) {
+      const e = randEdge(w, h);
+      p.x = e.x; p.y = e.y;
+      p.vx = 0; p.vy = 0;
+      p.life = 0;
+      p.maxLife = 120 + Math.random() * 220;
+      p.speed = 0.75 + Math.random() * 1.7;
+      p.hue = 195 + Math.random() * 90; // blue->violet
+    }
+
+    function init() {
+      particles.length = 0;
+      const w = canvas.width, h = canvas.height;
+      for (let i = 0; i < MAX; i++) {
+        const p = {};
+        reset(p, w, h);
+        particles.push(p);
+      }
+    }
+
+    function field(px, py, w, h) {
+      let fx = 0, fy = 0;
+      for (const c of charges) {
+        const cx = c.x * w, cy = c.y * h;
+        const dx = px - cx, dy = py - cy;
+        const r2 = dx*dx + dy*dy + 6000; // soften singularities (device px)
+        const inv = c.q / r2;
+        fx += dx * inv;
+        fy += dy * inv;
+      }
+      // gentle curl for nicer motion
+      const curl = 0.0007;
+      return { x: fx - curl * fy, y: fy + curl * fx };
+    }
+
+    function draw(now) {
+      const dt = Math.min(0.03, (now - last) / 1000);
+      last = now;
+
+      const w = canvas.width, h = canvas.height;
+
+      // Fade trails (do NOT fully clear)
+      ctx.fillStyle = "rgba(0,0,0,0.06)";
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle charge markers
+      for (const c of charges) {
+        const cx = c.x * w, cy = c.y * h;
+        ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = c.q > 0
+    ? "rgba(125,211,252,0.9)"
+    : "rgba(167,139,250,0.9)";
+
+    ctx.fillStyle = c.q > 0
+    ? "rgba(125,211,252,0.55)"
+    : "rgba(167,139,250,0.50)";
+    ctx.fill();
+    ctx.restore();
+
+      }
+
+      ctx.globalCompositeOperation = "lighter";
+      ctx.lineWidth = 1.25;
+    
+
+
+      for (const p of particles) {
+        const f = field(p.x, p.y, w, h);
+
+        // integrate
+        p.vx = (p.vx + f.x * 320000 * dt) * 0.92;
+        p.vy = (p.vy + f.y * 320000 * dt) * 0.92;
+
+        const x0 = p.x, y0 = p.y;
+        p.x += p.vx * p.speed * dt;
+        p.y += p.vy * p.speed * dt;
+        p.life++;
+
+        ctx.strokeStyle = `hsla(${p.hue}, 98%, 72%, 0.30)`;
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+
+        if (p.life > p.maxLife || p.x < -20 || p.x > w+20 || p.y < -20 || p.y > h+20) {
+          reset(p, w, h);
+        }
+      }
+
+      ctx.globalCompositeOperation = "source-over";
+      raf = requestAnimationFrame(draw);
+    }
+
+    // Boot
+    resize();
+    init();
+
+    // Start with a non-blank frame
+    ctx.fillStyle = "rgba(0,0,0,1)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    if (!document.body.classList.contains('reduced')) {
+      raf = requestAnimationFrame(draw);
+    }
+  })();
+  </script>
+</body>
+</html>
