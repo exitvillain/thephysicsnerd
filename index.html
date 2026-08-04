@@ -187,7 +187,7 @@
 
       <div class="links">
         <a href="mailto:dan@thephysicsnerd.com">Email</a>
-        <a href="tel:">Call</a>
+        <a href="tel:9177693073">Call</a>
         <button id="toggleMotion" class="btn" type="button">Reduce motion</button>
       </div>
     </div>
@@ -214,6 +214,21 @@
       </div>
       <div class="row"><span class="label">Email</span>
         <span>dan@thephysicsnerd.com</span>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="facts">
+      <div class="row">
+        <span class="label">Other Work</span>
+        <span>
+          Founder & Developer at <a href="https://signalbleed.nyc" target="_blank" style="color:var(--accent); text-decoration:none;">SignalBleed.NYC</a> — a boutique DIY music streaming platform & concert calendar for the NYC underground scene.
+        </span>
+      </div>
+      <div class="row">
+        <span class="label">Media</span>
+        <span>Teaching videos coming soon on YouTube.</span>
       </div>
     </div>
 
@@ -333,26 +348,23 @@
       for (const c of charges) {
         const cx = c.x * w, cy = c.y * h;
         ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 12, 0, Math.PI * 2);
 
-    ctx.shadowBlur = 18;
-    ctx.shadowColor = c.q > 0
-    ? "rgba(125,211,252,0.9)"
-    : "rgba(167,139,250,0.9)";
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = c.q > 0
+        ? "rgba(125,211,252,0.9)"
+        : "rgba(167,139,250,0.9)";
 
-    ctx.fillStyle = c.q > 0
-    ? "rgba(125,211,252,0.55)"
-    : "rgba(167,139,250,0.50)";
-    ctx.fill();
-    ctx.restore();
-
+        ctx.fillStyle = c.q > 0
+        ? "rgba(125,211,252,0.55)"
+        : "rgba(167,139,250,0.50)";
+        ctx.fill();
+        ctx.restore();
       }
 
       ctx.globalCompositeOperation = "lighter";
       ctx.lineWidth = 1.25;
-    
-
 
       for (const p of particles) {
         const f = field(p.x, p.y, w, h);
